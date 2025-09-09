@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대양고등학교 프로그래밍 퀴즈</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 대양고등학교 프로그래밍 퀴즈</h1>
+            <p class="subtitle">프로그래밍 기초 개념을 테스트해보세요!</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 시작 화면 -->
+            <div id="start-screen" class="screen active">
+                <div class="welcome-card">
+                    <h2>📚 프로그래밍 기초 퀴즈</h2>
+                    <div class="quiz-info">
+                        <div class="info-item">
+                            <span class="icon">📅</span>
+                            <span>4일차 과정</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">❓</span>
+                            <span>총 40문제</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">⏱️</span>
+                            <span>제한시간 없음</span>
+                        </div>
+                    </div>
+                    
+                    <div class="day-selector">
+                        <h3>학습할 일차를 선택하세요</h3>
+                        <div class="day-buttons">
+                            <button class="day-btn" data-day="1">
+                                <span class="day-number">1일차</span>
+                                <span class="day-topic">프로그래밍 언어 기초</span>
+                            </button>
+                            <button class="day-btn" data-day="2">
+                                <span class="day-number">2일차</span>
+                                <span class="day-topic">개발 절차 및 모형</span>
+                            </button>
+                            <button class="day-btn" data-day="3">
+                                <span class="day-number">3일차</span>
+                                <span class="day-topic">알고리즘 기초</span>
+                            </button>
+                            <button class="day-btn" data-day="4">
+                                <span class="day-number">4일차</span>
+                                <span class="day-topic">개발 환경 및 도구</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button id="start-quiz-btn" class="btn-primary" disabled>
+                        🚀 퀴즈 시작하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- 퀴즈 화면 -->
+            <div id="quiz-screen" class="screen">
+                <div class="quiz-header">
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">문제 1 / 10</span>
+                    </div>
+                    <div class="quiz-info-bar">
+                        <span class="current-day">1일차</span>
+                        <span class="score">점수: <span id="current-score">0</span>/20</span>
+                    </div>
+                </div>
+
+                <div class="quiz-card">
+                    <div class="question-container">
+                        <h3 class="question-number">문제 1.</h3>
+                        <p class="question-text">문제가 여기에 표시됩니다.</p>
+                        <span class="question-points">[2점]</span>
+                    </div>
+
+                    <div class="options-container">
+                        <div class="option" data-option="1">
+                            <span class="option-number">①</span>
+                            <span class="option-text">옵션 1</span>
+                        </div>
+                        <div class="option" data-option="2">
+                            <span class="option-number">②</span>
+                            <span class="option-text">옵션 2</span>
+                        </div>
+                        <div class="option" data-option="3">
+                            <span class="option-number">③</span>
+                            <span class="option-text">옵션 3</span>
+                        </div>
+                        <div class="option" data-option="4">
+                            <span class="option-number">④</span>
+                            <span class="option-text">옵션 4</span>
+                        </div>
+                        <div class="option" data-option="5">
+                            <span class="option-number">⑤</span>
+                            <span class="option-text">옵션 5</span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button id="prev-btn" class="btn-secondary" disabled>
+                            ← 이전 문제
+                        </button>
+                        <button id="next-btn" class="btn-primary" disabled>
+                            다음 문제 →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div id="result-screen" class="screen">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h2>🎉 퀴즈 완료!</h2>
+                    </div>
+                    
+                    <div class="result-content">
+                        <div class="score-display">
+                            <div class="final-score">
+                                <span id="final-score">0</span><span>/20</span>
+                            </div>
+                            <div class="score-percentage" id="score-percentage">0%</div>
+                        </div>
+                        
+                        <div class="result-message" id="result-message">
+                            잘했습니다!
+                        </div>
+
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span>정답</span>
+                                <span id="correct-count">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>오답</span>
+                                <span id="wrong-count">0</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>완료한 일차</span>
+                                <span id="completed-day">1일차</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button id="review-btn" class="btn-secondary">
+                            📋 오답 확인
+                        </button>
+                        <button id="restart-btn" class="btn-primary">
+                            🔄 다시 시작
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오답 확인 화면 -->
+            <div id="review-screen" class="screen">
+                <div class="review-card">
+                    <h2>📋 오답 확인</h2>
+                    <div id="review-content">
+                        <!-- 오답 문제들이 여기에 표시됩니다 -->
+                    </div>
+                    <button id="back-to-result-btn" class="btn-primary">
+                        ← 결과로 돌아가기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 대양고등학교. 프로그래밍 교육과정</p>
+        </footer>
+    </div>
+
+    <script src="questions.js"></script>
+    <script>
+        // 전역 변수
+        let currentDay = null;
+        let currentQuestionIndex = 0;
+        let selectedAnswers = [];
+        let currentScore = 0;
+        let wrongAnswers = [];
+
+        // DOM 요소들
+        const screens = {
+            start: document.getElementById('start-screen'),
+            quiz: document.getElementById('quiz-screen'),
+            result: document.getElementById('result-screen'),
+            review: document.getElementById('review-screen')
+        };
+
+        const elements = {
+            dayBtns: document.querySelectorAll('.day-btn'),
+            startQuizBtn: document.getElementById('start-quiz-btn'),
+            progressFill: document.querySelector('.progress-fill'),
+            progressText: document.querySelector('.progress-text'),
+            currentDaySpan: document.querySelector('.current-day'),
+            currentScoreSpan: document.getElementById('current-score'),
+            questionNumber: document.querySelector('.question-number'),
+            questionText: document.querySelector('.question-text'),
+            questionPoints: document.querySelector('.question-points'),
+            options: document.querySelectorAll('.option'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            finalScore: document.getElementById('final-score'),
+            scorePercentage: document.getElementById('score-percentage'),
+            resultMessage: document.getElementById('result-message'),
+            correctCount: document.getElementById('correct-count'),
+            wrongCount: document.getElementById('wrong-count'),
+            completedDay: document.getElementById('completed-day'),
+            reviewBtn: document.getElementById('review-btn'),
+            restartBtn: document.getElementById('restart-btn'),
+            reviewContent: document.getElementById('review-content'),
+            backToResultBtn: document.getElementById('back-to-result-btn')
+        };
+
+        // 화면 전환 함수
+        function showScreen(screenName) {
+            Object.values(screens).forEach(screen => screen.classList.remove('active'));
+            screens[screenName].classList.add('active');
+        }
+
+        // 일차 선택 이벤트
+        elements.dayBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                elements.dayBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                currentDay = parseInt(btn.dataset.day);
+                elements.startQuizBtn.disabled = false;
+            });
+        });
+
+        // 퀴즈 시작
+        elements.startQuizBtn.addEventListener('click', () => {
+            if (currentDay) {
+                initializeQuiz();
+                showScreen('quiz');
+            }
+        });
+
+        // 퀴즈 초기화
+        function initializeQuiz() {
+            currentQuestionIndex = 0;
+            selectedAnswers = [];
+            currentScore = 0;
+            wrongAnswers = [];
+            updateQuizDisplay();
+        }
+
+        // 퀴즈 화면 업데이트
+        function updateQuizDisplay() {
+            const currentQuestions = questions[`day${currentDay}`];
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+
+            // 진행률 업데이트
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            elements.progressFill.style.width = `${progress}%`;
+            elements.progressText.textContent = `문제 ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+            elements.currentDaySpan.textContent = `${currentDay}일차`;
+            elements.currentScoreSpan.textContent = currentScore;
+
+            // 문제 내용 업데이트
+            elements.questionNumber.textContent = `문제 ${currentQuestionIndex + 1}.`;
+            elements.questionText.textContent = currentQuestion.question;
+            elements.questionPoints.textContent = `[${currentQuestion.points}점]`;
+
+            // 선택지 업데이트
+            elements.options.forEach((option, index) => {
+                const optionText = currentQuestion.options[index];
+                option.querySelector('.option-text').textContent = optionText || '';
+                option.style.display = optionText ? 'flex' : 'none';
+                option.classList.remove('selected');
+            });
+
+            // 이전에 선택한 답안이 있으면 표시
+            if (selectedAnswers[currentQuestionIndex]) {
+                const selectedOption = document.querySelector(`[data-option="${selectedAnswers[currentQuestionIndex]}"]`);
+                if (selectedOption) selectedOption.classList.add('selected');
+            }
+
+            // 버튼 상태 업데이트
+            elements.prevBtn.disabled = currentQuestionIndex === 0;
+            elements.nextBtn.disabled = !selectedAnswers[currentQuestionIndex];
+            elements.nextBtn.textContent = currentQuestionIndex === currentQuestions.length - 1 ? '결과 보기' : '다음 문제 →';
+        }
+
+        // 선택지 클릭 이벤트
+        elements.options.forEach(option => {
+            option.addEventListener('click', () => {
+                elements.options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedAnswers[currentQuestionIndex] = parseInt(option.dataset.option);
+                elements.nextBtn.disabled = false;
+            });
+        });
+
+        // 이전/다음 버튼 이벤트
+        elements.prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuizDisplay();
+            }
+        });
+
+        elements.nextBtn.addEventListener('click', () => {
+            const currentQuestions = questions[`day${currentDay}`];
+            
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                updateQuizDisplay();
+            } else {
+                calculateResults();
+                showScreen('result');
+            }
+        });
+
+        // 결과 계산
+        function calculateResults() {
+            const currentQuestions = questions[`day${currentDay}`];
+            currentScore = 0;
+            wrongAnswers = [];
+
+            currentQuestions.forEach((question, index) => {
+                if (selectedAnswers[index] === question.answer) {
+                    currentScore += question.points;
+                } else {
+                    wrongAnswers.push({
+                        questionIndex: index + 1,
+                        question: question.question,
+                        selectedAnswer: selectedAnswers[index],
+                        correctAnswer: question.answer,
+                        options: question.options,
+                        points: question.points
+                    });
+                }
+            });
+
+            displayResults();
+        }
+
+        // 결과 표시
+        function displayResults() {
+            const totalQuestions = questions[`day${currentDay}`].length;
+            const correctAnswers = totalQuestions - wrongAnswers.length;
+            const percentage = Math.round((currentScore / 20) * 100);
+
+            elements.finalScore.textContent = currentScore;
+            elements.scorePercentage.textContent = `${percentage}%`;
+            elements.correctCount.textContent = correctAnswers;
+            elements.wrongCount.textContent = wrongAnswers.length;
+            elements.completedDay.textContent = `${currentDay}일차`;
+
+            // 결과 메시지
+            if (percentage >= 90) {
+                elements.resultMessage.textContent = '🌟 완벽합니다! 탁월한 실력이네요!';
+            } else if (percentage >= 80) {
+                elements.resultMessage.textContent = '👏 훌륭합니다! 매우 잘했어요!';
+            } else if (percentage >= 70) {
+                elements.resultMessage.textContent = '👍 좋습니다! 계속 노력하세요!';
+            } else if (percentage >= 60) {
+                elements.resultMessage.textContent = '💪 괜찮습니다! 조금 더 공부해보세요!';
+            } else {
+                elements.resultMessage.textContent = '📚 다시 복습하고 도전해보세요!';
+            }
+
+            elements.reviewBtn.style.display = wrongAnswers.length > 0 ? 'block' : 'none';
+        }
+
+        // 오답 확인
+        elements.reviewBtn.addEventListener('click', () => {
+            displayWrongAnswers();
+            showScreen('review');
+        });
+
+        function displayWrongAnswers() {
+            elements.reviewContent.innerHTML = '';
+            
+            wrongAnswers.forEach(item => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                
+                reviewItem.innerHTML = `
+                    <div class="review-question">
+                        <h4>문제 ${item.questionIndex}. ${item.question} [${item.points}점]</h4>
+                    </div>
+                    <div class="review-answers">
+                        <div class="answer-item wrong">
+                            <span class="answer-label">선택한 답:</span>
+                            <span class="answer-text">
+                                ${item.selectedAnswer ? `${['①', '②', '③', '④', '⑤'][item.selectedAnswer - 1]} ${item.options[item.selectedAnswer - 1]}` : '선택하지 않음'}
+                            </span>
+                        </div>
+                        <div class="answer-item correct">
+                            <span class="answer-label">정답:</span>
+                            <span class="answer-text">
+                                ${['①', '②', '③', '④', '⑤'][item.correctAnswer - 1]} ${item.options[item.correctAnswer - 1]}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                
+                elements.reviewContent.appendChild(reviewItem);
+            });
+        }
+
+        // 다시 시작
+        elements.restartBtn.addEventListener('click', () => {
+            currentDay = null;
+            elements.dayBtns.forEach(btn => btn.classList.remove('selected'));
+            elements.startQuizBtn.disabled = true;
+            showScreen('start');
+        });
+
+        elements.backToResultBtn.addEventListener('click', () => {
+            showScreen('result');
+        });
+
+        // 초기 화면 설정
+        showScreen('start');
+    </script>
+</body>
+</html>
