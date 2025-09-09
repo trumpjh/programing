@@ -2,6 +2,7 @@ let currentDay = 1;
 let currentQuestion = 0;
 let score = 0;
 let userAnswers = [];
+let shuffledQuestions = []; // quizData._shuffled 대신 별도 변수 사용
 
 // 배열을 무작위로 섞는 함수
 function shuffle(array) {
@@ -18,7 +19,7 @@ function startQuiz(day) {
   score = 0;
   userAnswers = [];
   // 문제 순서 섞기 (깊은 복사)
-  quizData._shuffled = quizData[day].map(q => {
+  shuffledQuestions = quizData[day].map(q => {
     // 선택지 섞기 및 정답 인덱스 재계산
     const choices = q.choices.map((c, i) => ({ text: c, origIdx: i }));
     shuffle(choices);
@@ -29,7 +30,7 @@ function startQuiz(day) {
       answer: newAnswer
     };
   });
-  shuffle(quizData._shuffled);
+  shuffle(shuffledQuestions);
 
   document.getElementById('day-select').style.display = 'none';
   document.getElementById('result-area').style.display = 'none';
@@ -38,8 +39,7 @@ function startQuiz(day) {
 }
 
 function showQuestion() {
-  const questions = quizData._shuffled;
-  const q = questions[currentQuestion];
+  const q = shuffledQuestions[currentQuestion];
   document.getElementById('question-number').innerText = `${currentQuestion + 1}번 문제 (${currentDay}일차)`;
   document.getElementById('question-text').innerText = q.question;
   const choicesDiv = document.getElementById('choices');
@@ -54,8 +54,7 @@ function showQuestion() {
 }
 
 function selectAnswer(idx, btn) {
-  const questions = quizData._shuffled;
-  const q = questions[currentQuestion];
+  const q = shuffledQuestions[currentQuestion];
   const choiceBtns = document.querySelectorAll('#choices button');
   choiceBtns.forEach(b => b.disabled = true);
   if (idx === q.answer) {
@@ -71,8 +70,7 @@ function selectAnswer(idx, btn) {
 
 function nextQuestion() {
   currentQuestion++;
-  const questions = quizData._shuffled;
-  if (currentQuestion < questions.length) {
+  if (currentQuestion < shuffledQuestions.length) {
     showQuestion();
   } else {
     showResult();
@@ -82,5 +80,5 @@ function nextQuestion() {
 function showResult() {
   document.getElementById('quiz-area').style.display = 'none';
   document.getElementById('result-area').style.display = '';
-  document.getElementById('score').innerText = `점수: ${score} / ${quizData._shuffled.length * 2}`;
+  document.getElementById('score').innerText = `점수: ${score} / ${shuffledQuestions.length * 2}`;
 }
